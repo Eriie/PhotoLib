@@ -11,19 +11,19 @@ struct SearchPhotoView: View {
     var body: some View {
         NavigationView {
             content
-            .navigationTitle("Photo Search")
+            .navigationTitle("写真検索")
         }
     }
 
     var content: some View {
          VStack {
                 HStack {
-                    TextField("Search for photos", text: $searchText)
+                    TextField("写真を検索", text: $searchText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
                         viewModel.search(query: searchText)
                     }) {
-                        Text("Search")
+                        Text("検索")
                     }
                 }
                 .padding()
@@ -32,7 +32,7 @@ struct SearchPhotoView: View {
 
                 switch viewModel.state {
                 case .idle:
-                    Text("Search for photos to see results.")
+                    Text("結果を見るために写真を検索してください。")
                 
                 case .loading:
                     ProgressView()
@@ -46,7 +46,7 @@ struct SearchPhotoView: View {
                 case .error(let errorText, let action):
                     Text(errorText)
                     Button(action: action, label: {
-                        Text("Retry")
+                        Text("再試行")
                             .padding(.all, 16)
                             .background(Color.primary)
                     })

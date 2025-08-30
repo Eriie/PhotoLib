@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CacheAsyncImage<PlacheHolder: View>: View {
-    let placheholder: () -> PlacheHolder
+    let placeholder: () -> PlacheHolder
     let url: URL
     var cacheStorage: ImageCache = .default
 
@@ -21,7 +21,7 @@ struct CacheAsyncImage<PlacheHolder: View>: View {
     private func handlePhase(_ phase: AsyncImagePhase) -> some View {
         switch phase {
         case .empty:
-            placheholder()
+            placeholder()
         case .success(let image):
             let _ = cacheStorage.set(forKey: url, image: image)
             image

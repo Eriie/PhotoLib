@@ -1,8 +1,8 @@
 import Foundation
 
-struct PhotoService {
+struct SearchNetworkService {
     
-    init(client: PexelsClient) {
+    init(client: NetworkClient) {
         self.client = client
     }
 
@@ -15,5 +15,5 @@ struct PhotoService {
         return try await client.performRequest(path: "search", queryItems: queryItems)
     }
     
-    private let client: PexelsClient
+    private let client: NetworkClient
 }

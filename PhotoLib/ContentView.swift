@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var serviceFactory: ServiceFactory
+        
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        SearchPhotoView(dataSource: serviceFactory.searchDataSource)
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(MockServiceFactory())
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-class PexelsClient {
+final class PexelsClient: NetworkClient {
 
     // MARK: - Initialization
 
