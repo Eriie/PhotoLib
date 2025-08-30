@@ -12,20 +12,23 @@ struct SearchPhotosListView: View {
     }
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridColumns(for: screenWidth), spacing: 1) {
-                ForEach(photos) { photo in
-                    
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 140, maximum: 200), spacing: 1)], spacing: 1) {
+            ForEach(photos) { photo in
+                Button(action: {
+
+                }) {
                     ImageView(imageSource: photo.previewUrl, placeholder: {
                         photo.avgColor
                             .scaledToFill()
                     })
-                    .frame(height: cellMinSize)
-                    .scaledToFit()
-                    .onAppear {
-                        if photo == photos.last {
-                            onScrolledToEnd()
-                        }
+                    .aspectRatio(contentMode: .fill)
+                    .frame(minHeight: 140)
+                    .clipped()
+                }
+                .buttonStyle(ScaleButtonStyle())
+                .onAppear {
+                    if photo == photos.last {
+                        onScrolledToEnd()
                     }
                 }
             }
@@ -50,23 +53,6 @@ struct SearchPhotosListView: View {
         let columnCount = max(2, Int(availableWidth / minCellSize))
         
         return columnCount
-    }
-
-}
-
-struct ImageView<Placeholder: View>: View {
-    
-    let imageSource: ImageSource
-    let placeholder: () -> Placeholder
-    
-    var body: some View {
-        switch imageSource {
-        case .url(let url):
-            CacheAsyncImage(placeholder: placeholder, url: url)
-        case .image(let image):
-            image
-                .resizable()
-        }
     }
     
 }
