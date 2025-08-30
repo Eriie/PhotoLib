@@ -14,8 +14,3 @@ struct ContentView: View {
         SearchPhotoView(dataSource: serviceFactory.searchDataSource)
     }
 }
-
-#Preview {
-    ContentView()
-        .environmentObject(MockServiceFactory())
-}

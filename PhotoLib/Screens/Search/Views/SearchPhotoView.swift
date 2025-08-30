@@ -10,7 +10,7 @@ struct SearchPhotoView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             content
                 .navigationTitle("写真検索")
                 .navigationBarTitleDisplayMode(.automatic)
@@ -58,6 +58,7 @@ struct SearchPhotoView: View {
         HStack {
             TextField("写真を検索", text: $searchText)
                 .textFieldStyle(.roundedBorder)
+                .onSubmit { viewModel.search(query: searchText) }
             Button(action: {
                 viewModel.search(query: searchText)
             }) {

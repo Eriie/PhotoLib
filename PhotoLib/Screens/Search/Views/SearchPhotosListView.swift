@@ -7,13 +7,11 @@ struct SearchPhotosListView: View {
     @State private var screenWidth: CGFloat = UIScreen.main.bounds.width
     @State private var selectedPhoto: SearchPhotoItemViewModel?
     
-    private var cellMinSize: CGFloat {
-        let columnCount = numberOfColumns(for: screenWidth)
-        return screenWidth / CGFloat(columnCount)
-    }
-
     var body: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 140, maximum: 200), spacing: 1)], spacing: 1) {
+        LazyVGrid(
+            columns: [GridItem(.adaptive(minimum: Layout.cellSizeMin), spacing: 1)],
+            spacing: 1
+        ) {
             ForEach(photos) { photo in
                 Button(action: {
                     selectedPhoto = photo
@@ -23,7 +21,7 @@ struct SearchPhotosListView: View {
                             .scaledToFill()
                     })
                     .aspectRatio(contentMode: .fill)
-                    .frame(minHeight: 140)
+                    .frame(minHeight: Layout.cellSizeMin)
                     .clipped()
                 }
                 .buttonStyle(ScaleButtonStyle())
@@ -43,20 +41,8 @@ struct SearchPhotosListView: View {
             PhotoDetailsView(photo: photo)
         }
     }
-    
-    private func gridColumns(for width: CGFloat) -> [GridItem] {
-        let columnCount = numberOfColumns(for: width)
-        
-        return Array(repeating: GridItem(.adaptive(minimum: cellMinSize), spacing: 1), count: columnCount)
-    }
-    
-    private func numberOfColumns(for width: CGFloat) -> Int {
-        let minCellSize: CGFloat = 150
-        
-        let availableWidth = width
-        let columnCount = max(2, Int(availableWidth / minCellSize))
-        
-        return columnCount
-    }
-    
+}
+
+enum Layout {
+    static let cellSizeMin: CGFloat = 140
 }
