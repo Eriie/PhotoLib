@@ -1,58 +1,85 @@
 import SwiftUI
 
 struct SearchPhotoView: View {
-    @StateObject private var viewModel: SearchPhotoViewModel
+    @State private var viewModel: SearchPhotoViewModel
     @State private var searchText = ""
-
+    @State private var isSearchBarVisible = true
+    
     init(dataSource: SearchPhotoDataSource) {
-        _viewModel = StateObject(wrappedValue: SearchPhotoViewModel(dataSource: dataSource))
+        viewModel = SearchPhotoViewModel(dataSource: dataSource)
     }
-
+    
     var body: some View {
         NavigationView {
             content
-            .navigationTitle("写真検索")
+                .navigationTitle("写真検索")
+                .navigationBarTitleDisplayMode(.automatic)
         }
     }
-
+    
     var content: some View {
-         VStack {
-                HStack {
-                    TextField("写真を検索", text: $searchText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    Button(action: {
-                        viewModel.search(query: searchText)
-                    }) {
-                        Text("検索")
-                    }
-                }
-                .padding()
-
+        ScrollView {
+            VStack(spacing: 0) {
+                searchField
                 Spacer()
-
                 switch viewModel.state {
                 case .idle:
                     Text("結果を見るために写真を検索してください。")
-                
+                        .multilineTextAlignment(.center)
+                        .padding()
                 case .loading:
                     ProgressView()
-                
                 case .loaded:
-                    SearchPhotoLoadedView(
-                        photos: SearchPhotoViewModelMapper.map(photos: viewModel.photos)) {
-                        viewModel.loadMore()
+                    if viewModel.resultModel.items.isEmpty {
+                        emptyView
+                            .multilineTextAlignment(.center)
+                            .padding()
+                    } else {
+                        SearchPhotosListView(
+                            photos: viewModel.resultModel.items
+                        ) {
+                            viewModel.loadMore()
+                        }
                     }
                     
                 case .error(let errorText, let action):
-                    Text(errorText)
-                    Button(action: action, label: {
-                        Text("再試行")
-                            .padding(.all, 16)
-                            .background(Color.primary)
-                    })
+                    errorView(errorText: errorText, action: action)
+                        .multilineTextAlignment(.center)
+                        .padding()
                 }
-             
+                
                 Spacer()
             }
+            .frame(minHeight: UIScreen.main.bounds.height - 200) // Ensure minimum height for centering
+        }
+    }
+    
+    private var searchField: some View {
+        HStack {
+            TextField("写真を検索", text: $searchText)
+                .textFieldStyle(.roundedBorder)
+            Button(action: {
+                viewModel.search(query: searchText)
+            }) {
+                Text("検索")
+            }
+        }
+        .padding()
+    }
+    
+    private var emptyView: some View {
+        Text("イメージがありません")
+    }
+    
+    @ViewBuilder
+    private func errorView(errorText: String, action: @escaping () -> Void) -> some View {
+        VStack {
+            Text(errorText)
+            Button(action: action, label: {
+                Text("再試行")
+                    .background(Color.primary)
+            })
+        }
     }
 }
+

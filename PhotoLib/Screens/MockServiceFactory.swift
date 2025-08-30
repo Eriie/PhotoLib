@@ -15,7 +15,7 @@ private class MockSearchPhotoDataSource: SearchPhotoDataSource {
     func searchPhotos(query: String, page: Int) async throws -> SearchPhotoResult {
         
         let mockPhotos = [
-            SearchPhotoResult.PhotoViewModel(
+            SearchPhotoResult.PhotoModel(
                 id: 2,
                 previewImage: .image(.colorImage( .cyan)),
                 fullImage: .image(.colorImage( .blue)),
@@ -24,9 +24,8 @@ private class MockSearchPhotoDataSource: SearchPhotoDataSource {
         ]
 
         return SearchPhotoResult(
-            page: page,
+            nextPage: nil,
             photos: mockPhotos,
-            hasMore: page < 3 // Simulate having more pages for pagination
         )
     }
 }

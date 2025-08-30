@@ -1,13 +1,11 @@
 import Foundation
 
-struct SearchPhotoViewModelMapper {
-    static func map(photos: [Photo]) -> [SearchPhotoItemViewModel] {
-        photos.map { photo in
-            SearchPhotoItemViewModel(
-                id: photo.id,
-                previewUrl: photo.src.small,
-                original: photo.src.original
-            )
-        }
+extension SearchPhotoItemViewModel {
+    init(photoModel: SearchPhotoResult.PhotoModel) {
+        self.id = photoModel.id
+        self.previewUrl = photoModel.previewImage
+        self.original = photoModel.fullImage
+        self.avgColor = photoModel.avgColor
     }
+    
 }

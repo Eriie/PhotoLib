@@ -8,7 +8,7 @@ struct NetworkConfig {
 
 extension NetworkConfig {
     static let `default` = NetworkConfig(
-        apiKey: "YOUR_API_KEY",
+        apiKey: "GJsbIg7CIMqjgk9v1SCHDsNEH01cwiOw8XSCdBfQdViCqeXrIWOP4WBF",
         pexelBaseURL: URL(string: "https://api.pexels.com/v1/")!
     )
 }

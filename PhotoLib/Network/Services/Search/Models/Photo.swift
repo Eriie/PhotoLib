@@ -18,4 +18,5 @@ struct PhotoSource: Codable {
     let original: URL
     let small: URL
     let tiny: URL
+    let portrait: URL
 }
