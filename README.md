@@ -1,0 +1,1 @@
+デフォルト実装の NetworkConfig.swift に API キーを追加してください。
