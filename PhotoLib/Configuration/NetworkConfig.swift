@@ -6,7 +6,9 @@ struct NetworkConfig {
 }
 
 
-static let defaultNetworkConfig = NetworkConfig(
-    apiKey: "YOUR_API_KEY",
-    pexelBaseURL: URL(string: "https://api.pexels.com/v1/")!
-)
+extension NetworkConfig {
+    static let `default` = NetworkConfig(
+        apiKey: "YOUR_API_KEY",
+        pexelBaseURL: URL(string: "https://api.pexels.com/v1/")!
+    )
+}

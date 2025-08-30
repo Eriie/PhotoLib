@@ -62,7 +62,6 @@ class PexelsClient {
                 .serverError
         default:
             nil
-            
         }
     }
 }
