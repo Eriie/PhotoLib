@@ -4,9 +4,9 @@ struct Photo: Codable {
     let id: Int
     let width: Int
     let height: Int
-    let url: String
+    let url: URL
     let photographer: String
-    let photographerUrl: String
+    let photographerUrl: URL
     let photographerId: Int
     let avgColor: String
     let src: PhotoSource
@@ -15,12 +15,7 @@ struct Photo: Codable {
 }
 
 struct PhotoSource: Codable {
-    let original: String
-    let large2x: String
-    let large: String
-    let medium: String
-    let small: String
-    let portrait: String
-    let landscape: String
-    let tiny: String
+    let original: URL
+    let small: URL
+    let tiny: URL
 }

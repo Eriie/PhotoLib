@@ -6,8 +6,8 @@ struct CacheAsyncImage<PlacheHolder: View>: View {
     var cacheStorage: ImageCache = .default
 
     var body: some View {
-        if let cached = cacheStorage.get(forKey: url) {
-            Image(uiImage: cached)
+        if let cachedImage = cacheStorage.get(forKey: url) {
+            cachedImage
                 .resizable()
                 .scaledToFit()
         } else {
