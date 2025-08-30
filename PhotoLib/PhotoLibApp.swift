@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct PhotoLibApp: App {
+    @StateObject private var serviceFactory = ServiceFactory()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(serviceFactory)
         }
     }
 }
