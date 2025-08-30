@@ -1,9 +1,9 @@
 import Foundation
 
 final class SearchPhotoDataSourceImpl: SearchPhotoDataSource {
-    private let photoService: PhotoService
+    private let photoService: SearchNetworkService
 
-    init(photoService: PhotoService) {
+    init(photoService: SearchNetworkService) {
         self.photoService = photoService
     }
 

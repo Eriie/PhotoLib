@@ -60,7 +60,7 @@ class SearchPhotoViewModel: ObservableObject {
                 self.photos.append(contentsOf: newPhotos)
             } catch {
                 guard !Task.isCancelled else { return }
-                state = .error("Something went wrong try again") { [weak self] in
+                state = .error("何かがうまくいきませんでした。もう一度お試しください") { [weak self] in
                     self?.loadMore()
                 }
             }
