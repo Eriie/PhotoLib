@@ -5,6 +5,7 @@ struct SearchPhotosListView: View {
     let onScrolledToEnd: () -> Void
     
     @State private var screenWidth: CGFloat = UIScreen.main.bounds.width
+    @State private var selectedPhoto: SearchPhotoItemViewModel?
     
     private var cellMinSize: CGFloat {
         let columnCount = numberOfColumns(for: screenWidth)
@@ -15,7 +16,7 @@ struct SearchPhotosListView: View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 140, maximum: 200), spacing: 1)], spacing: 1) {
             ForEach(photos) { photo in
                 Button(action: {
-
+                    selectedPhoto = photo
                 }) {
                     ImageView(imageSource: photo.previewUrl, placeholder: {
                         photo.avgColor
@@ -37,6 +38,9 @@ struct SearchPhotosListView: View {
             geometryProxy.size.width
         } action: { newWidth in
             screenWidth = newWidth
+        }
+        .sheet(item: $selectedPhoto) { photo in
+            PhotoDetailsView(photo: photo)
         }
     }
     

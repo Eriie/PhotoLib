@@ -4,7 +4,7 @@ extension SearchPhotoResult.PhotoModel {
     init(photo: Photo) {
         self.id = photo.id
         self.previewImage = .url(photo.src.tiny)
-        self.fullImage = .url(photo.src.original)
+        self.fullImage = .url(photo.src.portrait)
         self.avgColor = Color(hex: photo.avgColor) ?? .clear
     }
 }

@@ -19,8 +19,7 @@ private class MockSearchPhotoDataSource: SearchPhotoDataSource {
                 id: 2,
                 previewImage: .image(.colorImage( .cyan)),
                 fullImage: .image(.colorImage( .blue)),
-                avgColor: .white,
-                altText: "Photo"
+                avgColor: .white
             )
         ]
 
