@@ -2,7 +2,8 @@ import Foundation
 import Combine
 
 @MainActor
-class SearchPhotoViewModel: ObservableObject {
+@Observable
+class SearchPhotoViewModel {
     enum State {
         case idle
         case loading
@@ -10,8 +11,8 @@ class SearchPhotoViewModel: ObservableObject {
         case error(String, retryAction: () -> Void)
     }
 
-    @Published private(set) var photos: [Photo] = []
-    @Published private(set) var state: State = .idle
+    private(set) var resultModel = SearchResultModel(items: [])
+    private(set) var state: State = .idle
 
     private let interactor: SearchPhotoInteractor
     private var loadTask: Task<Void, Never>?
@@ -25,22 +26,28 @@ class SearchPhotoViewModel: ObservableObject {
             state = .idle
             return
         }
-        state = .loading
-        photos = []
-
-        // Cancel any existing task
         loadTask?.cancel()
         
-        loadTask = Task {
+        let previusState = state
+        state = .loading
+        loadTask = Task { @MainActor in
+            
             do {
+                try await Task.sleep(for: .seconds(0.4))
                 let newPhotos = try await interactor.search(query: query)
 
-                guard !Task.isCancelled else { return }
-                self.photos = newPhotos
+                guard !Task.isCancelled else {
+                    state = previusState
+                    return
+                }
+                self.resultModel = SearchResultModel(items: newPhotos.map { SearchPhotoItemViewModel(photoModel: $0) })
                 self.state = .loaded
             } catch {
-                guard !Task.isCancelled else { return }
-                self.state = .error(error.localizedDescription) { [weak self] in
+                guard !Task.isCancelled else {
+                    state = previusState
+                    return
+                }
+                self.state = .error("何かがうまくいきませんでした。もう一度お試しください") { [weak self] in
                     self?.search(query: query)
                 }
             }
@@ -57,7 +64,7 @@ class SearchPhotoViewModel: ObservableObject {
                 let newPhotos = try await interactor.loadMore()
 
                 guard !Task.isCancelled else { return }
-                self.photos.append(contentsOf: newPhotos)
+                self.resultModel.items.append(contentsOf: newPhotos.map { SearchPhotoItemViewModel(photoModel: $0) })
             } catch {
                 guard !Task.isCancelled else { return }
                 state = .error("何かがうまくいきませんでした。もう一度お試しください") { [weak self] in

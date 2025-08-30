@@ -5,7 +5,10 @@ import UIKit
 final class ImageCache {
     static let `default` = ImageCache()
 
-    private init() {}
+    private init(countLimit: Int = 300, costLimit: Int = 0) {
+        cache.countLimit = countLimit
+        cache.totalCostLimit = costLimit
+    }
 
     func get(forKey key: URL) -> Image? {
         return cache.object(forKey: key as NSURL)?.image

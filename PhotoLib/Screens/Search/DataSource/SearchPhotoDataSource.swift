@@ -2,11 +2,10 @@ import Foundation
 import SwiftUI
 
 struct SearchPhotoResult {
-    let page: Int
-    let photos: [PhotoViewModel]
-    let hasMore: Bool
+    let nextPage: Int?
+    let photos: [PhotoModel]
 
-    struct PhotoViewModel {
+    struct PhotoModel {
         let id: Int
         let previewImage: ImageSource
         let fullImage: ImageSource
@@ -14,7 +13,7 @@ struct SearchPhotoResult {
     }
 }
 
-enum ImageSource {
+enum ImageSource: Equatable {
     case url(URL)
     case image(Image)
 }

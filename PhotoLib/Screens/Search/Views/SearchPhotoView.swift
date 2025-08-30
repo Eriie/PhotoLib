@@ -1,36 +1,26 @@
 import SwiftUI
 
 struct SearchPhotoView: View {
-    @StateObject private var viewModel: SearchPhotoViewModel
+    @State private var viewModel: SearchPhotoViewModel
     @State private var searchText = ""
+    @State private var isSearchBarVisible = true
 
     init(dataSource: SearchPhotoDataSource) {
-        _viewModel = StateObject(wrappedValue: SearchPhotoViewModel(dataSource: dataSource))
+        viewModel = SearchPhotoViewModel(dataSource: dataSource)
     }
 
     var body: some View {
         NavigationView {
             content
             .navigationTitle("写真検索")
+            .navigationBarTitleDisplayMode(.automatic)
         }
     }
 
     var content: some View {
-         VStack {
-                HStack {
-                    TextField("写真を検索", text: $searchText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    Button(action: {
-                        viewModel.search(query: searchText)
-                    }) {
-                        Text("検索")
-                    }
-                }
-                .padding()
-
-                Spacer()
-
-                switch viewModel.state {
+         VStack(spacing: 0) {
+             
+             switch viewModel.state {
                 case .idle:
                     Text("結果を見るために写真を検索してください。")
                 
@@ -38,21 +28,53 @@ struct SearchPhotoView: View {
                     ProgressView()
                 
                 case .loaded:
-                    SearchPhotoLoadedView(
-                        photos: SearchPhotoViewModelMapper.map(photos: viewModel.photos)) {
-                        viewModel.loadMore()
-                    }
+                 if viewModel.resultModel.items.isEmpty {
+                     emptyView
+                 } else {
+                     SearchPhotosListView(
+                        photos: viewModel.resultModel.items
+                     ) {
+                         viewModel.loadMore()
+                     }
+                     .padding(.top, Layout.searchBarHeight)
+                 }
                     
                 case .error(let errorText, let action):
-                    Text(errorText)
-                    Button(action: action, label: {
-                        Text("再試行")
-                            .padding(.all, 16)
-                            .background(Color.primary)
-                    })
+                    Spacer()
+                    VStack {
+                        Text(errorText)
+                        Button(action: action, label: {
+                            Text("再試行")
+                                .background(Color.primary)
+                        })
+                    }
+                    Spacer()
                 }
-             
-                Spacer()
             }
+         .frame(maxWidth: .greatestFiniteMagnitude)
+         .overlay(alignment: .top) {
+                 HStack {
+                     TextField("写真を検索", text: $searchText)
+                         .textFieldStyle(.roundedBorder)
+                     Button(action: {
+                         viewModel.search(query: searchText)
+                     }) {
+                         Text("検索")
+                     }
+                 }
+                 .padding()
+                 .frame(height: Layout.searchBarHeight)
+             
+         }
+    }
+    
+    var emptyView: some View {
+        Text("イメージがありません")
+    }
+}
+
+private enum Layout {
+    static var searchBarHeight: CGFloat {
+        48
     }
 }

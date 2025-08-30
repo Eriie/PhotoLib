@@ -9,9 +9,8 @@ struct CacheAsyncImage<PlacheHolder: View>: View {
         if let cachedImage = cacheStorage.get(forKey: url) {
             cachedImage
                 .resizable()
-                .scaledToFit()
         } else {
-            AsyncImage(url: url) { phase in
+            AsyncImage(url: url, transaction: .init(animation: .easeInOut)) { phase in
                 handlePhase(phase)
             }
         }
@@ -26,10 +25,11 @@ struct CacheAsyncImage<PlacheHolder: View>: View {
             let _ = cacheStorage.set(forKey: url, image: image)
             image
                 .resizable()
-                .scaledToFit()
+                .transition(.opacity)
         case .failure:
             Image(systemName: "xmark.circle.fill")
                 .foregroundColor(.gray)
+                .transition(.opacity)
         @unknown default:
             EmptyView()
         }
