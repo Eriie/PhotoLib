@@ -1,5 +1,5 @@
 import Foundation
 
 struct SearchResultModel: Equatable {
-    let items: [PhotoUIModel]
+    let items: [SearchPhotoItemViewModel]
 }

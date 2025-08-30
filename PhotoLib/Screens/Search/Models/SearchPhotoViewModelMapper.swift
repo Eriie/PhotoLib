@@ -1,9 +1,9 @@
 import Foundation
 
-struct PhotoUIMapper {
-    static func map(photos: [Photo]) -> [PhotoUIModel] {
+struct SearchPhotoViewModelMapper {
+    static func map(photos: [Photo]) -> [SearchPhotoItemViewModel] {
         photos.map { photo in
-            PhotoUIModel(
+            SearchPhotoItemViewModel(
                 id: photo.id,
                 previewUrl: photo.src.small,
                 orginal: photo.src.original

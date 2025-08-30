@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 @MainActor
-class PhotoGridViewModel: ObservableObject {
+class SearchPhotoViewModel: ObservableObject {
     enum State {
         case idle
         case loading
@@ -13,11 +13,11 @@ class PhotoGridViewModel: ObservableObject {
     @Published private(set) var photos: [Photo] = []
     @Published private(set) var state: State = .idle
 
-    private let interactor: PhotoGridInteractor
+    private let interactor: SearchPhotoInteractor
     private var loadTask: Task<Void, Never>?
 
-    init(dataSource: PhotoGridDataSource) {
-        self.interactor = PhotoGridInteractor(dataSource: dataSource)
+    init(dataSource: SearchPhotoDataSource) {
+        self.interactor = SearchPhotoInteractor(dataSource: dataSource)
     }
 
     func search(query: String) {

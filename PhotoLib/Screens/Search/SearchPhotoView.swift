@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct PhotoGridView: View {
-    @StateObject private var viewModel: PhotoGridViewModel
+struct SearchPhotoView: View {
+    @StateObject private var viewModel: SearchPhotoViewModel
     @State private var searchText = ""
 
-    init(dataSource: PhotoGridDataSource) {
-        _viewModel = StateObject(wrappedValue: PhotoGridViewModel(dataSource: dataSource))
+    init(dataSource: SearchPhotoDataSource) {
+        _viewModel = StateObject(wrappedValue: SearchPhotoViewModel(dataSource: dataSource))
     }
 
     var body: some View {
@@ -38,8 +38,8 @@ struct PhotoGridView: View {
                     ProgressView()
                 
                 case .loaded:
-                    PhotoGridLoadedView(
-                        photos: PhotoUIMapper.map(photos: viewModel.photos)) {
+                    SearchPhotoLoadedView(
+                        photos: SearchPhotoViewModelMapper.map(photos: viewModel.photos)) {
                         viewModel.loadMore()
                     }
                     

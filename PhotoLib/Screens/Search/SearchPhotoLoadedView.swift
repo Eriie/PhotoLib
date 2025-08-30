@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct PhotoGridLoadedView: View {
-    let photos: [PhotoUIModel]
+struct SearchPhotoLoadedView: View {
+    let photos: [SearchPhotoItemViewModel]
     let onScrolledToEnd: () -> Void
     
     var body: some View {

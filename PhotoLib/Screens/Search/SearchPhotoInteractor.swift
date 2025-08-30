@@ -5,12 +5,12 @@ enum PhotoLibInteractorError: Error {
 }
 
 @MainActor
-class PhotoGridInteractor {
-    private let dataSource: PhotoGridDataSource
+class SearchPhotoInteractor {
+    private let dataSource: SearchPhotoDataSource
     private var nextPage: Int?
     private var currentQuery = ""
 
-    init(dataSource: PhotoGridDataSource) {
+    init(dataSource: SearchPhotoDataSource) {
         self.dataSource = dataSource
     }
 
@@ -18,7 +18,7 @@ class PhotoGridInteractor {
         guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw PhotoLibInteractorError.emptySearchString }
         currentQuery = query
 
-        let result = try await dataSource.searchPhotos(query: query, page: 1)
+        let result = try await dataSource.searchPhotos(query: query)
         try Task.checkCancellation()
         nextPage = result.hasMore ? result.page + 1 : nil
         return result.photos

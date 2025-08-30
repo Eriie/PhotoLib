@@ -1,6 +1,6 @@
 import Foundation
 
-struct PhotoUIModel: Identifiable, Equatable {
+struct SearchPhotoItemViewModel: Identifiable, Equatable {
     let id: Int
     let previewUrl: URL
     let orginal: URL
