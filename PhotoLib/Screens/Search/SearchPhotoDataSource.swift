@@ -1,9 +1,22 @@
 import Foundation
+import SwiftUI
 
 struct SearchPhotoResult {
     let page: Int
-    let photos: [Photo]
+    let photos: [PhotoViewModel]
     let hasMore: Bool
+
+    struct PhotoViewModel {
+        let id: Int
+        let previewImage: ImageSource
+        let fullImage: ImageSource
+        let avgColor: Color
+    }
+}
+
+enum ImageSource {
+    case url(URL)
+    case image(Image)
 }
 
 protocol SearchPhotoDataSource {
