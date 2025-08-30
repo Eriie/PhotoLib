@@ -8,7 +8,7 @@ struct SearchPhotoLoadedView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
                 ForEach(photos) { photo in
-                    CacheAsyncImage(placheholder: {
+                    CacheAsyncImage(placeholder: {
                         Color.gray
                     }, url: photo.previewUrl)
                     .aspectRatio(contentMode: .fill)

@@ -6,7 +6,7 @@ struct SearchPhotoViewModelMapper {
             SearchPhotoItemViewModel(
                 id: photo.id,
                 previewUrl: photo.src.small,
-                orginal: photo.src.original
+                original: photo.src.original
             )
         }
     }
